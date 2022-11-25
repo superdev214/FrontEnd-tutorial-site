@@ -1,21 +1,22 @@
 import React, { useState } from "react";
 import TutorialData from "../types/tutorial";
+import {staticList} from "../global/tutorialList";
 const TutorialList: React.FC = () => {
-  const staticList: Array<TutorialData> = [
-    {
-      title: "React",
-      description: "Front",
-    },
-    {
-      title: "Angular",
-      description:
-        "The front language which is better than the other language to build enomous website",
-    },
-    {
-      title: "Vue",
-      description: "Include all features of react and angular",
-    },
-  ];
+  // const staticList: Array<TutorialData> = [
+  //   {
+  //     title: "React",
+  //     description: "Front",
+  //   },
+  //   {
+  //     title: "Angular",
+  //     description:
+  //       "The front language which is better than the other language to build enomous website",
+  //   },
+  //   {
+  //     title: "Vue",
+  //     description: "Include all features of react and angular",
+  //   },
+  // ];
 
   const [m_currentTutorial, setCurrentTutorial] = useState<TutorialData | null>(
     null

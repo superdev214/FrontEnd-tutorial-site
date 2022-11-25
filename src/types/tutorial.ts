@@ -1,6 +1,6 @@
 export default interface TutorialData{
     id? : any | null,
-    title : string,
-    description : string,
+    title? : string | undefined,
+    description? : string | undefined,
     published? : boolean
 }
