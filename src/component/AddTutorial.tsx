@@ -56,7 +56,7 @@ const AddTutorial: React.FC = () => {
             </label>
             <input
               type="text"
-              className="w-[100%] rounded-lg text-[24px]"
+              className="w-[100%] rounded-lg text-[24px] bg-sky-400"
               name="title"
               onChange={handleChange}
             />
@@ -67,7 +67,7 @@ const AddTutorial: React.FC = () => {
             </label>
             <input
               type="text"
-              className="w-[100%] rounded-lg text-[24px] "
+              className="w-[100%] rounded-lg text-[24px] bg-sky-400"
               name="description"
               onChange={handleChange}
             />
