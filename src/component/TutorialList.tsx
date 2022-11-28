@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TutorialData from "../types/tutorial";
-import {staticList} from "../global/tutorialList";
+import Service from "../service/service";
+import { staticList } from "../global/tutorialList";
 const TutorialList: React.FC = () => {
   // const staticList: Array<TutorialData> = [
   //   {
@@ -17,7 +18,7 @@ const TutorialList: React.FC = () => {
   //     description: "Include all features of react and angular",
   //   },
   // ];
-
+  const [m_Alltutorials, setAll] = useState<Array<TutorialData>>([]);
   const [m_currentTutorial, setCurrentTutorial] = useState<TutorialData | null>(
     null
   );
@@ -27,6 +28,30 @@ const TutorialList: React.FC = () => {
     setCurrentIndex(index);
     setCurrentTutorial(mTutorial);
   };
+  // search all tutorials
+  const refreshTutorial = () => {
+    Service.getAll()
+      .then((res: any) => {
+        setAll(res.data);
+        console.log(res.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+  const deleteAllTutorial = () => {
+    Service.deleteAllTutorial()
+      .then((res: any) => {
+        console.log(res.data);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+  };
+  //initial method
+  useEffect(() => {
+    refreshTutorial();
+  }, []);
   return (
     <div>
       <div className="input-group flex grid grid-cols-12 m-0 max-w-[750px]">
@@ -44,11 +69,11 @@ const TutorialList: React.FC = () => {
         <div className="col-span-6 px-[15px]">
           <h4 className="text-[24px]">Tutorials List</h4>
           <ul>
-            {staticList &&
-              staticList.map((tutorial, index) => (
+            {m_Alltutorials &&
+              m_Alltutorials.map((tutorial, index) => (
                 <li
                   className={
-                    "p-[12px] border-[1px] hover:text-sky-400" +
+                    "p-[12px] border-[1px] hover:text-sky-600" +
                     (index === m_currentIndex ? " bg-sky-400" : "")
                   }
                   key={index}
@@ -58,7 +83,10 @@ const TutorialList: React.FC = () => {
                 </li>
               ))}
           </ul>
-          <button className="bg-[red] text-[white] rounded-[4px] p-[3px] mt-[8px]">
+          <button
+            className="bg-[red] text-[white] rounded-[4px] p-[3px] mt-[8px]"
+            onClick={deleteAllTutorial}
+          >
             Remove All
           </button>
         </div>
@@ -84,7 +112,9 @@ const TutorialList: React.FC = () => {
                 </label>
                 {m_currentTutorial.published ? "Published" : "Pending"}
               </div>
-              <button className="bg-yellow-700 text-[16px] hover:bg-yellow-400 rounded-md p-[3px]">Edit</button>
+              <button className="bg-yellow-700 text-[16px] hover:bg-yellow-400 rounded-md p-[3px]">
+                Edit
+              </button>
             </div>
           ) : (
             <div>

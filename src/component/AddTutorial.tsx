@@ -2,12 +2,13 @@ import { Input } from "postcss";
 import { title } from "process";
 import React, { ChangeEvent, useState } from "react";
 import { staticList } from "../global/tutorialList";
+import Service from "../service/service";
 import TutorialData from "../types/tutorial";
 const AddTutorial: React.FC = () => {
   const [Tutorial, setTutorail] = useState<TutorialData | null>(null);
   const [addTutorialSubmit, setAddTutorialSubmit] = useState<boolean>(false);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //If you input the new title and description content, there are go to Tutorial automatic
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setTutorail({ ...Tutorial, [name]: value });
   };
@@ -15,27 +16,25 @@ const AddTutorial: React.FC = () => {
   const saveTutorial = () => {
     //@ send the database part
     // staticList.push(Tutorial!);
-    return new Promise((resolve, reject) => {
-      if (Tutorial?.title === 'reject') {
-        reject('error - title name can\'t be reject');
-      } else {
-        resolve(Tutorial);
-      }
+    var data = {
+      title : Tutorial?.title,
+      description : Tutorial?.description,
+    };
+    Service.addTutorial(data).then((res : any) => {
+      console.log(res);
+      if(res.data.msg === "success")
+       {
+        
+         setAddTutorialSubmit(true);
+        }
+    }).catch((e : Error) => {
+      console.log( e );
     })
-    
-    // if success
+        // if success
     // setAddTutorialSubmit(true);
   };
 
-  const handleSaveTutorial = () => {
-    saveTutorial().then((tutorial: any) => {
-      staticList.push(tutorial);
-      console.log(staticList.length);
-      setAddTutorialSubmit(true);
-    }).catch((err) => {
-      console.log(err);
-    })
-  }
+ 
   //end add tutorial part
 
   return (
@@ -58,7 +57,7 @@ const AddTutorial: React.FC = () => {
               type="text"
               className="w-[100%] rounded-lg text-[24px] bg-sky-400"
               name="title"
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </div>
           <div className="form-group mb-[8px]">
@@ -69,12 +68,12 @@ const AddTutorial: React.FC = () => {
               type="text"
               className="w-[100%] rounded-lg text-[24px] bg-sky-400"
               name="description"
-              onChange={handleChange}
+              onChange={handleInputChange}
             />
           </div>
           <button
             className="btn-success bg-[#18672a] mt-[8px] p-[8px] rounded-lg"
-            onClick={handleSaveTutorial}
+            onClick={saveTutorial}
           >
             Submit
           </button>
