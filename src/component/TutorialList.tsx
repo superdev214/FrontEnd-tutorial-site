@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { ChangeEvent } from "react";
 import TutorialData from "../types/tutorial";
 import Service from "../service/service";
 import { staticList } from "../global/tutorialList";
+import { serialize } from "v8";
 const TutorialList: React.FC = () => {
   // const staticList: Array<TutorialData> = [
   //   {
@@ -23,11 +25,14 @@ const TutorialList: React.FC = () => {
     null
   );
   const [m_currentIndex, setCurrentIndex] = useState<number>(-1);
-
+  const [m_searchTitle, setSearchTitle] = useState<string | null>(null);
   const setActiveTutorial = (mTutorial: TutorialData, index: number) => {
     setCurrentIndex(index);
     setCurrentTutorial(mTutorial);
   };
+const handleInputChange = (event : ChangeEvent<HTMLInputElement>) =>{
+  setSearchTitle(event.target.value);
+}
   // search all tutorials
   const refreshTutorial = () => {
     Service.getAll()
@@ -42,13 +47,22 @@ const TutorialList: React.FC = () => {
   const deleteAllTutorial = () => {
     console.log("Dele");
     Service.deleteAllTutorial()
-      .then((res: any) => {
-        console.log(res.data);
-        refreshTutorial();
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
+    .then((response: any) => {
+      console.log("refresh");
+      refreshTutorial();
+      setCurrentTutorial(null);
+    })
+    .catch((e: Error) => {
+      console.log(e);
+    });
+  };
+  const searchByTitle = () => {
+    console.log(m_searchTitle);
+    Service.getByTitle(m_searchTitle).then((res : any) => {
+      console.log(res);
+      setAll(res.data);
+    })
+
   };
   //initial method
   useEffect(() => {
@@ -62,9 +76,10 @@ const TutorialList: React.FC = () => {
           <input
             type="text"
             className="form-control flex-auto pl-[12px] pt-[6px] pb-[6px] text-[16px] rounded-[4px] border-2 border-white"
-            placeholder="Search by titie"
+            placeholder="Search by title"
+            onChange={handleInputChange}
           />
-          <button className="border-2 border-white p-[15px] rounded-r-lg">
+          <button className="border-2 border-white p-[15px] rounded-r-lg" onClick={searchByTitle}>
             Search
           </button>
         </div>

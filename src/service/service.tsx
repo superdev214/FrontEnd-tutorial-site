@@ -12,10 +12,14 @@ const addTutorial = (data : TutorialData) => {
 const deleteAllTutorial = () => {
     return http.delete("/");
 }
+const getByTitle = (data : string | null) => {
+    return http.get<Array<TutorialData>>(`/?title=${data}`);
+}
 const Service = {
     getAll,
     addTutorial,
-    deleteAllTutorial
+    deleteAllTutorial,
+    getByTitle
 };
 
 export default Service;
