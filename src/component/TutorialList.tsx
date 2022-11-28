@@ -40,9 +40,11 @@ const TutorialList: React.FC = () => {
       });
   };
   const deleteAllTutorial = () => {
+    console.log("Dele");
     Service.deleteAllTutorial()
       .then((res: any) => {
         console.log(res.data);
+        refreshTutorial();
       })
       .catch((e: Error) => {
         console.log(e);
