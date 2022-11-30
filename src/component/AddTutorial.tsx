@@ -1,11 +1,10 @@
-import { Input } from "postcss";
-import { title } from "process";
+
 import React, { ChangeEvent, useState } from "react";
 import { staticList } from "../global/tutorialList";
 import Service from "../service/service";
-import TutorialData from "../types/tutorial";
+import {typeTutorial, typeUser} from "../types/typeData";
 const AddTutorial: React.FC = () => {
-  const [Tutorial, setTutorail] = useState<TutorialData | null>(null);
+  const [Tutorial, setTutorail] = useState<typeTutorial | null>(null);
   const [addTutorialSubmit, setAddTutorialSubmit] = useState<boolean>(false);
   //If you input the new title and description content, there are go to Tutorial automatic
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {

@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  cloneElement,
+  isValidElement,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import { ChangeEvent } from "react";
-import TutorialData from "../types/tutorial";
+import {typeTutorial, typeUser} from "../types/typeData";
 import Service from "../service/service";
 import { staticList } from "../global/tutorialList";
 import { serialize } from "v8";
@@ -20,19 +26,20 @@ const TutorialList: React.FC = () => {
   //     description: "Include all features of react and angular",
   //   },
   // ];
-  const [m_Alltutorials, setAll] = useState<Array<TutorialData>>([]);
-  const [m_currentTutorial, setCurrentTutorial] = useState<TutorialData | null>(
+
+  const [m_Alltutorials, setAll] = useState<Array<typeTutorial>>([]);
+  const [m_currentTutorial, setCurrentTutorial] = useState<typeTutorial | null>(
     null
   );
   const [m_currentIndex, setCurrentIndex] = useState<number>(-1);
   const [m_searchTitle, setSearchTitle] = useState<string | null>(null);
-  const setActiveTutorial = (mTutorial: TutorialData, index: number) => {
+  const setActiveTutorial = (mTutorial: typeTutorial, index: number) => {
     setCurrentIndex(index);
     setCurrentTutorial(mTutorial);
   };
-const handleInputChange = (event : ChangeEvent<HTMLInputElement>) =>{
-  setSearchTitle(event.target.value);
-}
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTitle(event.target.value);
+  };
   // search all tutorials
   const refreshTutorial = () => {
     Service.getAll()
@@ -47,23 +54,25 @@ const handleInputChange = (event : ChangeEvent<HTMLInputElement>) =>{
   const deleteAllTutorial = () => {
     console.log("Dele");
     Service.deleteAllTutorial()
-    .then((response: any) => {
-      console.log("refresh");
-      refreshTutorial();
-      setCurrentTutorial(null);
-    })
-    .catch((e: Error) => {
-      console.log(e);
-    });
+      .then((response: any) => {
+        console.log("refresh");
+        refreshTutorial();
+        setCurrentTutorial(null);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
   };
   const searchByTitle = () => {
     console.log(m_searchTitle);
-    Service.getByTitle(m_searchTitle).then((res : any) => {
+    Service.getByTitle(m_searchTitle).then((res: any) => {
       console.log(res);
       setAll(res.data);
-    })
-
+    });
   };
+  /**script test */
+
+  /**end */
   //initial method
   useEffect(() => {
     refreshTutorial();
@@ -79,7 +88,10 @@ const handleInputChange = (event : ChangeEvent<HTMLInputElement>) =>{
             placeholder="Search by title"
             onChange={handleInputChange}
           />
-          <button className="border-2 border-white p-[15px] rounded-r-lg" onClick={searchByTitle}>
+          <button
+            className="border-2 border-white p-[15px] rounded-r-lg"
+            onClick={searchByTitle}
+          >
             Search
           </button>
         </div>
@@ -141,6 +153,7 @@ const handleInputChange = (event : ChangeEvent<HTMLInputElement>) =>{
           )}
         </div>
       </div>
+      <button className="text-red-400 text-[16px]">test</button>
     </div>
   );
 };

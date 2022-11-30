@@ -1,6 +1,6 @@
 import React from "react";
-import TutorialData from "../types/tutorial";
-export const staticList: Array<TutorialData> = [
+import {typeTutorial, typeUser} from "../types/typeData";
+export const staticList: Array<typeTutorial> = [
   {
     title: "React",
     description: "Front",
