@@ -21,6 +21,7 @@ const Login = () => {
         Service.checkLogin(m_user).then((res : any) => {
             if(res.data.msg === "success")
               {
+                localStorage.setItem('token', res.data.user.token);
                 navigate('/tutorials');
               } 
             else
