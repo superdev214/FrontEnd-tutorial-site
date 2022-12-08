@@ -17,11 +17,13 @@ const Login = () => {
         setUser({...m_user, [name] : value});
     };
     const checkLogin = () =>{
-        console.log(m_user);
         Service.checkLogin(m_user).then((res : any) => {
+    
             if(res.data.msg === "success")
               {
-                localStorage.setItem('token', res.data.user.token);
+                console.log(res.data.user);
+                //  localStorage.setItem('token', res.data.user.token);
+                localStorage.setItem('token', res.data.token);
                 navigate('/tutorials');
               } 
             else
